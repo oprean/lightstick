@@ -1,0 +1,95 @@
+{
+    "oled": {
+        "id": 0,
+        "sda_pin": 16,
+        "scl_pin": 17
+    },
+
+    "strip": {
+        "num_pixels":30,
+        "pin":28,
+        "mode":"GRB",
+        "state_machine":0,
+        "delay": 0.0001
+    },
+
+    "navkeys": {
+        "up_pin":1, 
+        "right_pin":20, 
+        "down_pin":19, 
+        "left_pin":4, 
+        "select_pin":18,
+        "wait":0.2
+    },
+
+    "menu": [
+        {
+            "name":"home",
+            "label":"HOME",
+            "type":"static",
+            "content":"Welcome ...",
+            "neighbours":["","presets","about","settings"]
+        },
+        {
+            "name":"presets",
+            "label":"PRESETS",
+            "type":"static",
+            "content":"Presets ...",
+            "neighbours":["","settings","rainbow","home"]
+        },
+        {
+            "name":"about",
+            "label":"ABOUT",
+            "type":"static",
+            "content":"Lightstick ...",
+            "neighbours":["home","","home",""]
+        },
+        {
+            "name":"settings",
+            "label":"SETTINGS",
+            "type":"static",
+            "content":"settings ...",
+            "neighbours":["","home","brightness","presets"]
+        },
+        {
+            "name":"brightness",
+            "label":"BRIGHTNESS",
+            "type":"option",
+            "action": "update_setting",
+            "content":"brightness settings ...",
+            "neighbours":["settings","","speed",""]
+        },
+        {
+            "name":"speed",
+            "label":"SPEED",
+            "type":"option",
+            "action": "update_setting",
+            "content":"update settings ...",
+            "neighbours":["brightness","","settings",""]
+        },
+        {
+            "name":"rainbow",
+            "label":"RAINBOW",
+            "type":"preset",
+            "content":"display rainbow",
+            "action": "preset_rainbow",
+            "neighbours":["presets","","fire",""]
+        },
+        {
+            "name":"fire",
+            "label":"FIRE",
+            "type":"preset",
+            "content":"display fire",
+            "action": "preset_rainbow",
+            "neighbours":["rainbow","","text",""]
+        },
+        {
+            "name":"text",
+            "label":"TEXT",
+            "type":"preset",
+            "content":"display text",
+            "action": "preset_text",
+            "neighbours":["fire","","presets",""]
+        }
+    ]
+}
