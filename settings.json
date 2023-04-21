@@ -10,7 +10,18 @@
         "pin":28,
         "mode":"GRB",
         "state_machine":0,
-        "delay": 0.0001
+        "delay": 0.0001,
+        "colors": {
+            "white":"FFFFFF",
+            "black":"FFFFFF",
+            "red":"FF0000",
+            "orange":"FF7F00",
+            "yellow":"FFFF00",
+            "green":"00FF00",
+            "blue":"0000FF",
+            "indigo":"4B0082",
+            "violet":"9400D3"
+        }
     },
 
     "navkeys": {
@@ -68,6 +79,14 @@
             "neighbours":["brightness","","settings",""]
         },
         {
+            "name":"text_color",
+            "label":"TEXT COLOR",
+            "type":"option",
+            "action": "update_setting",
+            "content":"update TEXT COLOR",
+            "neighbours":["speed","","settings",""]
+        },
+        {
             "name":"rainbow",
             "label":"RAINBOW",
             "type":"preset",
@@ -81,7 +100,15 @@
             "type":"preset",
             "content":"display fire",
             "action": "preset_rainbow",
-            "neighbours":["rainbow","","text",""]
+            "neighbours":["rainbow","","gradient",""]
+        },
+        {
+            "name":"gradient",
+            "label":"FIRE",
+            "type":"preset",
+            "content":"display gradient",
+            "action": "preset_gradient",
+            "neighbours":["fire","","text",""]
         },
         {
             "name":"text",

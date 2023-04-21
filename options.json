@@ -1,1 +1,1 @@
-{"brightness": 50, "speed": 0.2, "start_page": "home"}
+{"brightness": 50, "speed": 0.2, "text_color": "white", "gradient_color1":"red", "gradient_color2":"blue", "start_page": "home"}

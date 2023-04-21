@@ -14,7 +14,7 @@ _LEFT = 3
 class OLED:
     def __init__(self, id, sda_pin, scl_pin):
         if (not _DEBUG_MODE):
-            i2c = I2C(id, sda=sda_pin, scl=scl_pin)
+            i2c = I2C(id, sda=Pin(sda_pin), scl=Pin(scl_pin))
             self.lcd = ssd1306.SSD1306_I2C(128, 64, i2c)
 
         self.page = False

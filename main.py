@@ -28,21 +28,12 @@ _LEFT = 3
 
 # "neighbours":["top","right","bottom","left"]
 
-#https://www.geeksforgeeks.org/convert-nested-python-dictionary-to-object/ ????
-class obj:
-    def __init__(self, dict1):
-        self.__dict__.update(dict1)
-  
-def dict2obj(dict):
-  return json.loads(json.dumps(dict), object_hook=obj)
-
 class Lightstick:
     def __init__(self, json_settings_file, json_options_file, selected=_START_PAGE):
         self.selected = selected
         self.in_action = False
         f = open(json_settings_file)
         self.setings = json.load(f)
-        #self.setings = dict2obj(self.setings)
         self.menu = self.setings['menu']
         f.close()
 
@@ -107,11 +98,18 @@ class Lightstick:
                 elif (key == 'left'):
                     self.options[self.selected] += -inc
 
-                with open(_JSON_SETTINGS, 'w') as f:
+                with open(_JSON_OPTIONS, 'w') as f:
                     json.dump(self.options, f)
                 self.drawPage()
 
 ############# PRESETS ###############
+    def preset_gradient(self):
+        self.in_action = True
+        self.drawPage()
+        self.strip.gradient(self.options['gradient_color1'], self.options['gradient_color2'])
+        self.in_action = False
+        self.drawPage()
+
     def preset_rainbow(self):
         self.in_action = True
         self.drawPage()
