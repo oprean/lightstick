@@ -76,7 +76,7 @@
             "type":"option",
             "action": "update_setting",
             "content":"update settings ...",
-            "neighbours":["brightness","","settings",""]
+            "neighbours":["brightness","","text_color",""]
         },
         {
             "name":"text_color",
@@ -90,7 +90,7 @@
             "name":"rainbow",
             "label":"RAINBOW",
             "type":"preset",
-            "content":"display rainbow",
+            "content":"Rainbow colors!",
             "action": "preset_rainbow",
             "neighbours":["presets","","fire",""]
         },
@@ -104,7 +104,7 @@
         },
         {
             "name":"gradient",
-            "label":"FIRE",
+            "label":"GRADIENT",
             "type":"preset",
             "content":"display gradient",
             "action": "preset_gradient",

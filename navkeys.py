@@ -29,3 +29,5 @@ class NavKeyboard:
                 return 'left'
             elif (self.select_button.value() == 0):
                 return 'enter'
+            else:
+                return ''

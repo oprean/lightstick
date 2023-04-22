@@ -48,7 +48,7 @@ class Lightstick:
         # init harware
         # LED STRIP
         setings = self.setings['strip']
-        self.strip = LedPainter(setings['num_pixels'], setings['state_machine'], setings['pin'], setings['mode'], setings['delay'], self.options)
+        self.strip = LedPainter(setings['num_pixels'], setings['state_machine'], setings['pin'], setings['mode'], setings['delay'], self.options, setings)
         
         # OLED Display
         setings = self.setings['oled']
@@ -59,6 +59,12 @@ class Lightstick:
         self.wait_key = setings['wait']
         self.keyboard = NavKeyboard(setings["up_pin"], setings["right_pin"], setings["down_pin"], setings["left_pin"], setings["select_pin"])
 
+    def waitKey(self):
+        key = ''
+        while True:
+            if (key != self.keyboard.read_key()): break
+        time.sleep(self.wait_key)
+        
     def readKey(self):
         key = self.keyboard.read_key()
         time.sleep(self.wait_key)
@@ -107,6 +113,8 @@ class Lightstick:
         self.in_action = True
         self.drawPage()
         self.strip.gradient(self.options['gradient_color1'], self.options['gradient_color2'])
+        self.waitKey()
+        self.strip.clear()
         self.in_action = False
         self.drawPage()
 
@@ -114,6 +122,8 @@ class Lightstick:
         self.in_action = True
         self.drawPage()
         self.strip.rainbow()
+        self.waitKey()        
+        self.strip.clear()
         self.in_action = False
         self.drawPage()
 

@@ -13,22 +13,26 @@ if (not _DEBUG_MODE):
     from neopixel import Neopixel  
 
 columns = range(8)
-
-red = (255, 0, 0)
 black = (0, 0, 0)
 
 def hex2rgb(hex):
-  return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+  return tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
 
 class LedPainter:
-  def __init__(self, num_leds, state_machine, pin, mode="RGB", delay=0.0001, options = False):
+  def __init__(self, num_leds, state_machine, pin, mode="RGB", delay=0.0001, options = False, settings = False):
     self.options = options
+    self.settings = settings
     self.num_leds = num_leds
     self.speed = options['speed']
     self.brightness = options['brightness']
     if (not _DEBUG_MODE):
       self.strip = Neopixel( num_leds, state_machine, pin, mode, delay)
       self.strip.brightness(self.brightness)
+
+  def clear(self):
+    if (not _DEBUG_MODE):
+        self.strip.fill(black)
+        self.strip.show()
 
   def getSignMatrix(self, letter):
     #‘A’, it is 65 while for ‘a’, it is 97. 
@@ -54,7 +58,7 @@ class LedPainter:
     for col in columns:
       if (not _DEBUG_MODE):self.strip.fill(black)
       else:os.system('cls') 
-      text_color = hex2rgb(self.options['colors'][self.options['text_color']])
+      text_color = hex2rgb(self.settings['colors'][self.options['text_color']])
       rowcnt = 0
       for row in matrix:
         if (row[col] != '0'):
@@ -84,22 +88,26 @@ class LedPainter:
       time.sleep(self.speed)
 
   def gradient(self,color1, color2):
+      color1 = hex2rgb(self.settings['colors'][color1])
+      color2 = hex2rgb(self.settings['colors'][color2])
       if (not _DEBUG_MODE):
         self.strip.set_pixel_line_gradient(0, self.num_leds-1, color1,color2)
         self.strip.show()
-      time.sleep(self.speed)
+      else:print('displaying gradient')
 
   #https://www.krishnamani.in/color-codes-for-rainbow-vibgyor-colours/
   def rainbow(self):
-    colors = self.options['colors']
+    colors = self.settings['colors']
     rainbow = [colors['violet'], colors['indigo'], colors['blue'], colors['green'], colors['yellow'], colors['orange'], colors['red']]
     i = 0
-    self.strip.fill(black)
-    for color in rainbow:
-      color = hex2rgb(color)
-      self.strip.set_pixel(i*4, color)
-      self.strip.set_pixel(i*4+1, color)
-      self.strip.set_pixel(i*4+2, color)
-      self.strip.set_pixel(i*4+3, color)
-      i +=1
-    self.strip.show()
+    if (not _DEBUG_MODE):
+      self.strip.fill(black)
+      for color in rainbow:
+        color = hex2rgb(color)
+        self.strip.set_pixel(i*4, color)
+        self.strip.set_pixel(i*4+1, color)
+        self.strip.set_pixel(i*4+2, color)
+        self.strip.set_pixel(i*4+3, color)
+        i +=1
+      self.strip.show()
+    else:print('displaying rainbow')

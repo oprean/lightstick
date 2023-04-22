@@ -55,10 +55,19 @@ class OLED:
             else:
                 if (_DEBUG_MODE):print(self.options[self.page['name']])
                 else:self.lcd.text('Value: ' + str(self.options[self.page['name']]), 12, 34)
-        elif (self.page['type'] == 'presets'):
+        elif (self.page['type'] == 'preset'):
             if (_DEBUG_MODE):print(self.page['content'])
-            else:self.lcd.text(self.page['content'], 2, 12)
+            else:
+                self.lcd.text(self.page['content'], 2, 24)
+                if (self.in_action):
+                    self.lcd.rect(25, 40, 60, 14, 1)
+                    self.lcd.text('Action!', 28, 43)
 
+    def text(self, text):
+        self.lcd.fill(0)
+        self.lcd.text(text, 22, 34)
+        self.lcd.show()
+        
     def draw(self, page, in_action, options):
             self.page = page
             self.in_action = in_action
