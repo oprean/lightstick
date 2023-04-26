@@ -1,8 +1,8 @@
 import os
 import time
 import signs as signs
-import json
-
+from utils import Utils
+import random
 try:
     from machine import Pin, I2C
     _DEBUG_MODE = False
@@ -15,19 +15,21 @@ if (not _DEBUG_MODE):
 columns = range(8)
 black = (0, 0, 0)
 
-def hex2rgb(hex):
-  return tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
-
 class LedPainter:
   def __init__(self, num_leds, state_machine, pin, mode="RGB", delay=0.0001, options = False, settings = False):
     self.options = options
-    self.settings = settings
+    self.colors = settings['sources']['colors']
     self.num_leds = num_leds
     self.speed = options['speed']
     self.brightness = options['brightness']
+    self.upper_fire = 0
     if (not _DEBUG_MODE):
       self.strip = Neopixel( num_leds, state_machine, pin, mode, delay)
       self.strip.brightness(self.brightness)
+
+  def getColor(self,name):
+      for color in self.colors:
+          if (color['name'] == name):return Utils.hex2rgb(color['value'])
 
   def clear(self):
     if (not _DEBUG_MODE):
@@ -58,7 +60,7 @@ class LedPainter:
     for col in columns:
       if (not _DEBUG_MODE):self.strip.fill(black)
       else:os.system('cls') 
-      text_color = hex2rgb(self.settings['colors'][self.options['text_color']])
+      text_color = Utils.hex2rgb(self.colors[self.options['text_color']['value']]['value'])
       rowcnt = 0
       for row in matrix:
         if (row[col] != '0'):
@@ -88,22 +90,34 @@ class LedPainter:
       time.sleep(self.speed)
 
   def gradient(self,color1, color2):
-      color1 = hex2rgb(self.settings['colors'][color1])
-      color2 = hex2rgb(self.settings['colors'][color2])
+      color1 = Utils.hex2rgb(self.colors[color1]['value'])
+      color2 = Utils.hex2rgb(self.colors[color2]['value'])
       if (not _DEBUG_MODE):
         self.strip.set_pixel_line_gradient(0, self.num_leds-1, color1,color2)
         self.strip.show()
       else:print('displaying gradient')
 
+  def fire(self):
+      self.strip.fill(black)
+      color1 = self.getColor('red')
+      color2 = self.getColor('yellow') 
+      if (not _DEBUG_MODE):
+        sign = random.randint(-1,1)
+        inc = random.randint(0,3)
+        if (self.upper_fire + sign*inc < 0 or self.upper_fire + sign*inc > self.num_leds-1):sign = -sign
+        self.upper_fire += sign*inc
+        self.strip.set_pixel_line_gradient(0, self.upper_fire, color2,color1)
+        self.strip.show()
+      else:print('displaying fire')
+
   #https://www.krishnamani.in/color-codes-for-rainbow-vibgyor-colours/
   def rainbow(self):
-    colors = self.settings['colors']
-    rainbow = [colors['violet'], colors['indigo'], colors['blue'], colors['green'], colors['yellow'], colors['orange'], colors['red']]
+    rainbow = [8,7,6,5,4,3,2]
     i = 0
     if (not _DEBUG_MODE):
       self.strip.fill(black)
       for color in rainbow:
-        color = hex2rgb(color)
+        color = Utils.hex2rgb(self.colors[color]['value'])
         self.strip.set_pixel(i*4, color)
         self.strip.set_pixel(i*4+1, color)
         self.strip.set_pixel(i*4+2, color)

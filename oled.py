@@ -12,7 +12,7 @@ _DOWN = 2
 _LEFT = 3
 
 class OLED:
-    def __init__(self, id, sda_pin, scl_pin):
+    def __init__(self, id, sda_pin, scl_pin, utils = False):
         if (not _DEBUG_MODE):
             i2c = I2C(id, sda=Pin(sda_pin), scl=Pin(scl_pin))
             self.lcd = ssd1306.SSD1306_I2C(128, 64, i2c)
@@ -20,6 +20,7 @@ class OLED:
         self.page = False
         self.in_action = False
         self.options = False
+        self.utils = utils
 
     def drawPageHeader(self):
         udarrows = ''
@@ -46,15 +47,26 @@ class OLED:
             if (_DEBUG_MODE):print(self.page['content'])
             else:self.lcd.text(self.page['content'], 2, 14)
         elif (self.page['type'] == 'option' and self.page['name'] in self.options):
+
+            if 'source' in self.options[self.page['name']]:
+                source = self.utils.getSettingValue(self.options[self.page['name']]['source'])
+                label = source[self.options[self.page['name']]['value']]
+            else:
+                label = self.options[self.page['name']]['value']
+                
             if (self.in_action):
-                if (_DEBUG_MODE):print(self.options[self.page['name']])
+                if (_DEBUG_MODE):
+                    print(self.options[self.page['name']])
+                    print(label)
                 else:
                     self.lcd.rect(10, 24, 108, 24, 1)
-                    self.lcd.fill_rect(10, 24, self.options[self.page['name']],24,1)
-                    self.lcd.text('Value: ' + str(self.options[self.page['name']]), 12, 34)
+                    self.lcd.fill_rect(10, 24, self.options[self.page['name']]['value'],24,1)
+                    self.lcd.text('Value: ' + label, 12, 34)
             else:
-                if (_DEBUG_MODE):print(self.options[self.page['name']])
-                else:self.lcd.text('Value: ' + str(self.options[self.page['name']]), 12, 34)
+                if (_DEBUG_MODE):
+                    print(self.options[self.page['name']])
+                    print(label)
+                else:self.lcd.text('Value: ' + label, 12, 34)
         elif (self.page['type'] == 'preset'):
             if (_DEBUG_MODE):print(self.page['content'])
             else:

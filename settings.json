@@ -1,27 +1,10 @@
 {
-    "oled": {
-        "id": 0,
-        "sda_pin": 16,
-        "scl_pin": 17
-    },
-
     "strip": {
         "num_pixels":30,
         "pin":28,
         "mode":"GRB",
         "state_machine":0,
-        "delay": 0.0001,
-        "colors": {
-            "white":"FFFFFF",
-            "black":"FFFFFF",
-            "red":"FF0000",
-            "orange":"FF7F00",
-            "yellow":"FFFF00",
-            "green":"00FF00",
-            "blue":"0000FF",
-            "indigo":"4B0082",
-            "violet":"9400D3"
-        }
+        "delay": 0.0001
     },
 
     "navkeys": {
@@ -31,6 +14,73 @@
         "left_pin":4, 
         "select_pin":18,
         "wait":0.2
+    },
+
+    "oled": {
+        "id": 0,
+        "sda_pin": 16,
+        "scl_pin": 17
+    },
+
+    "sources": {
+        "colors": [
+            {
+                "name":"black",
+                "value":"000000"
+            },
+            {
+                "name":"white",
+                "value":"FFFFFF"
+            },
+            {
+                "name":"red",
+                "value":"FF0000"
+            },
+            {
+                "name":"orange",
+                "value":"FF7F00"
+            },
+            {
+                "name":"yellow",
+                "value":"FFFF00"
+            },
+            {
+                "name":"green",
+                "value":"00FF00"
+            },
+            {
+                "name":"blue",
+                "value":"0000FF"
+            },
+            {
+                "name":"indigo",
+                "value":"4B0082"
+            },
+            {
+                "name":"violet",
+                "value":"9400D3"
+            }
+        ],
+        "yesno": [
+            {
+                "name":"yes",
+                "value":1
+            },
+            {
+                "name":"no",
+                "value":0
+            }
+        ],
+        "leftright": [
+            {
+                "name":"left",
+                "value":1
+            },
+            {
+                "name":"right",
+                "value":0
+            }
+        ]
     },
 
     "menu": [
@@ -99,7 +149,7 @@
             "label":"FIRE",
             "type":"preset",
             "content":"display fire",
-            "action": "preset_rainbow",
+            "action": "preset_fire",
             "neighbours":["rainbow","","gradient",""]
         },
         {

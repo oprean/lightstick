@@ -1,7 +1,7 @@
 import os
 import time
 import json
-
+import collections.abc
 try:
     from machine import Pin, I2C
     _DEBUG_MODE = False
@@ -11,6 +11,7 @@ except ImportError or ModuleNotFoundError:
 from oled import OLED
 from navkeys import NavKeyboard
 from strip import LedPainter
+from utils import Utils
 
 ###### constants ##########  
 _START_PAGE = 'home'
@@ -45,14 +46,16 @@ class Lightstick:
             if (page['name'] == self.selected):
                 self.page = page
 
+        self.utils = Utils(self.setings, self.options)
+
         # init harware
         # LED STRIP
         setings = self.setings['strip']
-        self.strip = LedPainter(setings['num_pixels'], setings['state_machine'], setings['pin'], setings['mode'], setings['delay'], self.options, setings)
+        self.strip = LedPainter(setings['num_pixels'], setings['state_machine'], setings['pin'], setings['mode'], setings['delay'], self.options, self.setings)
         
         # OLED Display
         setings = self.setings['oled']
-        self.display = OLED(setings['id'], setings['sda_pin'], setings['scl_pin'])
+        self.display = OLED(setings['id'], setings['sda_pin'], setings['scl_pin'], self.utils)
 
         # NAV Keys
         setings = self.setings['navkeys']
@@ -90,30 +93,67 @@ class Lightstick:
 
     def update_setting(self):
         if  self.selected in self.options:
+            option = self.options[self.selected]
+            if 'source' in option:
+                if (isinstance(option['source'], list)):
+                    source = option['source']
+                else:
+                    source = self.utils.getSettingValue(option['source'])
+                min = 0
+                max = len(source)-1
+                inc = 1
+            else:
+                min = option['min']
+                max = option['max']
+                inc = option['inc']
             self.in_action = True
-            inc = 1
+
             self.drawPage()
             while self.in_action == True:
                 key = self.keyboard.read_key()
                 time.sleep(self.wait_key)
                 if (key == 'enter'):
                     self.in_action = False
+
+                    if (_DEBUG_MODE):json_string =  json.dumps(self.options,indent=4)
+                    else:json_string =  Utils.json_pretty_print(self.options,indent=4)
+                
+                    with open(_JSON_OPTIONS, 'w') as f:
+                         f.write(json_string)
+
+                    if (self.selected == 'brightness'):
+                        if (not _DEBUG_MODE):
+                            self.strip.strip.brightness(option['value'])
                     break
                 elif (key == 'right'):
-                    self.options[self.selected] += inc
+                    if (option['value']>=max):option['value'] = min-inc
+                    option["value"] += inc
                 elif (key == 'left'):
-                    self.options[self.selected] += -inc
-
-                with open(_JSON_OPTIONS, 'w') as f:
-                    json.dump(self.options, f)
+                    if (option['value']<=min):option['value'] = max+inc
+                    option["value"] += -inc
+                self.options[self.selected]['value'] = option['value']
                 self.drawPage()
 
 ############# PRESETS ###############
     def preset_gradient(self):
         self.in_action = True
         self.drawPage()
-        self.strip.gradient(self.options['gradient_color1'], self.options['gradient_color2'])
+        self.strip.gradient(self.options['gradient_color1']['value'], self.options['gradient_color2']['value'])
         self.waitKey()
+        self.strip.clear()
+        self.in_action = False
+        self.drawPage()
+
+    def preset_fire(self):
+        self.in_action = True
+        self.drawPage()
+        key = ''
+        self.strip.upper_fire = 15
+        while True:
+            self.strip.fire()
+            key = self.keyboard.read_key()
+            time.sleep(self.wait_key/10)
+            if key != '': break        
         self.strip.clear()
         self.in_action = False
         self.drawPage()
@@ -130,7 +170,7 @@ class Lightstick:
     def preset_text(self):
         self.in_action = True
         self.drawPage()
-        self.strip.printSigns('MATI', self.display)
+        self.strip.printSigns('Cami te IUBESC!', self.display)
         self.in_action = False
         self.drawPage()
 

@@ -1,1 +1,39 @@
-{"brightness": 55, "speed": 0.2, "text_color": "red", "gradient_color1": "red", "gradient_color2": "blue", "start_page": "home"}
+{
+    "brightness": {
+        "value": 19,
+        "min": 0,
+        "max": 100,
+        "inc": 1
+    },
+    "speed": {
+        "value": 0.7,
+        "min": 0.2,
+        "max": 2,
+        "inc": 0.1
+    },
+    "text_color": {
+        "value": 1,
+        "source": "sources.colors"
+    },
+    "gradient_color1": {
+        "value": 2,
+        "source": "sources.colors"
+    },
+    "gradient_color2": {
+        "value": 6,
+        "source": "sources.colors"
+    },
+    "pixels": {
+        "value": 1,
+        "source": "sources.yesno"
+    },
+    "direction": {
+        "value": 1,
+        "source": "sources.leftright"
+    },
+    "flip": {
+        "value": 1,
+        "source": "sources.yesno"
+    },
+    "start_page": "home"
+}
