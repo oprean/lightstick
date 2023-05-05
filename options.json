@@ -1,18 +1,18 @@
 {
     "brightness": {
-        "value": 19,
+        "value": 23,
         "min": 0,
         "max": 100,
         "inc": 1
     },
     "speed": {
-        "value": 0.7,
+        "value": 1.2,
         "min": 0.2,
         "max": 2,
         "inc": 0.1
     },
     "text_color": {
-        "value": 1,
+        "value": 4,
         "source": "sources.colors"
     },
     "gradient_color1": {
@@ -23,7 +23,7 @@
         "value": 6,
         "source": "sources.colors"
     },
-    "pixels": {
+    "pixelate": {
         "value": 1,
         "source": "sources.yesno"
     },
@@ -34,6 +34,10 @@
     "flip": {
         "value": 1,
         "source": "sources.yesno"
+    },
+    "image": {
+        "value": 4,
+        "source": "sources.card"
     },
     "start_page": "home"
 }

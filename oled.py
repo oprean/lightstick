@@ -1,7 +1,7 @@
 import os
 try:
     from machine import Pin, I2C
-    import ssd1306
+    import lib.ssd1306 as ssd1306
     _DEBUG_MODE = False
 except ImportError or ModuleNotFoundError:
     _DEBUG_MODE = True
@@ -50,7 +50,7 @@ class OLED:
 
             if 'source' in self.options[self.page['name']]:
                 source = self.utils.getSettingValue(self.options[self.page['name']]['source'])
-                label = source[self.options[self.page['name']]['value']]
+                label = source[self.options[self.page['name']]['value']-1]['name']
             else:
                 label = self.options[self.page['name']]['value']
                 
@@ -60,13 +60,13 @@ class OLED:
                     print(label)
                 else:
                     self.lcd.rect(10, 24, 108, 24, 1)
-                    self.lcd.fill_rect(10, 24, self.options[self.page['name']]['value'],24,1)
-                    self.lcd.text('Value: ' + label, 12, 34)
+                    self.lcd.fill_rect(10, 24, int(self.options[self.page['name']]['value']),24,1)
+                    self.lcd.text('Value: ' + str(label), 12, 34)
             else:
                 if (_DEBUG_MODE):
                     print(self.options[self.page['name']])
                     print(label)
-                else:self.lcd.text('Value: ' + label, 12, 34)
+                else:self.lcd.text('Value: ' + str(label), 12, 34)
         elif (self.page['type'] == 'preset'):
             if (_DEBUG_MODE):print(self.page['content'])
             else:

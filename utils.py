@@ -1,8 +1,9 @@
 import json
 class Utils:
-    def __init__(self, settings = False, options = False):
+    def __init__(self, settings = False, options = False, card = False):
         self.options = options
         self.settings = settings
+        self.card = card
 
     def hex2rgb(hex):
         return tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
@@ -24,7 +25,10 @@ class Utils:
         return val
     
     def getSettingValue(self,path):
-        return self.getValue(self.settings,path)
+        if (path == 'sources.card'):
+            return self.card.images
+        else:
+            return self.getValue(self.settings,path)
 
     def getOptionValue(self,path):
         return self.getValue(self.options,path)

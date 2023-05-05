@@ -1,7 +1,7 @@
 import os
 import time
 import json
-import collections.abc
+
 try:
     from machine import Pin, I2C
     _DEBUG_MODE = False
@@ -12,15 +12,18 @@ from oled import OLED
 from navkeys import NavKeyboard
 from strip import LedPainter
 from utils import Utils
+from card import Card
 
 ###### constants ##########  
 _START_PAGE = 'home'
 if (not _DEBUG_MODE):
     _JSON_OPTIONS = 'options.json'
     _JSON_SETTINGS = 'settings.json'
+    _IMAGES_PATH = '\images\\'
 else:
     _JSON_OPTIONS = 'C:\Personal\pico\code\Lightstick\options.json'
     _JSON_SETTINGS = 'C:\Personal\pico\code\Lightstick\settings.json'
+    _IMAGES_PATH = 'C:\Personal\pico\code\images\\'
 
 _UP = 0
 _RIGHT = 1
@@ -46,9 +49,13 @@ class Lightstick:
             if (page['name'] == self.selected):
                 self.page = page
 
-        self.utils = Utils(self.setings, self.options)
-
         # init harware
+
+        # SC Card readed
+        setings = self.setings['card']
+        self.card = Card(setings["spi_pin"], setings["cs_pin"], _IMAGES_PATH)
+        self.utils = Utils(self.setings, self.options, self.card)
+
         # LED STRIP
         setings = self.setings['strip']
         self.strip = LedPainter(setings['num_pixels'], setings['state_machine'], setings['pin'], setings['mode'], setings['delay'], self.options, self.setings)
@@ -61,6 +68,8 @@ class Lightstick:
         setings = self.setings['navkeys']
         self.wait_key = setings['wait']
         self.keyboard = NavKeyboard(setings["up_pin"], setings["right_pin"], setings["down_pin"], setings["left_pin"], setings["select_pin"])
+
+        self.strip.initialAnimation()
 
     def waitKey(self):
         key = ''
@@ -97,6 +106,8 @@ class Lightstick:
             if 'source' in option:
                 if (isinstance(option['source'], list)):
                     source = option['source']
+                elif(option['source']=='card'):
+                    source = self.card.images
                 else:
                     source = self.utils.getSettingValue(option['source'])
                 min = 0
@@ -170,13 +181,25 @@ class Lightstick:
     def preset_text(self):
         self.in_action = True
         self.drawPage()
-        self.strip.printSigns('Cami te IUBESC!', self.display)
+        self.strip.printSigns('CAMI', self.display)
+        self.in_action = False
+        self.drawPage()
+
+    def preset_image(self, file = 'rgb.bmp'):
+        self.in_action = True
+        id = self.utils.getOptionValue('image')
+        id = id['value']-1
+        file = self.card.getFile(id)
+        self.drawPage()
+        self.strip.image(_IMAGES_PATH + file['value'], self.display)
         self.in_action = False
         self.drawPage()
 
 ######## start the program here ########
 
 stick = Lightstick(_JSON_SETTINGS, _JSON_OPTIONS, _START_PAGE)
+#stick.preset_image('pattern.bmp')
+#print(stick.card.listdir())
 stick.drawPage()
 while True:
     stick.readKey()

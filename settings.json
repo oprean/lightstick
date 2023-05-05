@@ -22,6 +22,12 @@
         "scl_pin": 17
     },
 
+    "card": {
+        "spi_pin": 0,
+        "cs_pin": 16,
+        "fc": 17
+    },
+
     "sources": {
         "colors": [
             {
@@ -134,7 +140,23 @@
             "type":"option",
             "action": "update_setting",
             "content":"update TEXT COLOR",
-            "neighbours":["speed","","settings",""]
+            "neighbours":["speed","","pixelate",""]
+        },
+        {
+            "name":"pixelate",
+            "label":"PIXELATE",
+            "type":"option",
+            "action": "update_setting",
+            "content":"toggle pixelate",
+            "neighbours":["text_color","","image",""]
+        },
+        {
+            "name":"image",
+            "label":"IMAGE",
+            "type":"option",
+            "action": "update_setting",
+            "content":"Select image",
+            "neighbours":["pixelate","","settings",""]
         },
         {
             "name":"rainbow",
@@ -166,7 +188,15 @@
             "type":"preset",
             "content":"display text",
             "action": "preset_text",
-            "neighbours":["fire","","presets",""]
+            "neighbours":["fire","","display_image",""]
+        },
+        {
+            "name":"display_image",
+            "label":"DISPLAY IMAGE",
+            "type":"preset",
+            "content":"display image",
+            "action": "preset_image",
+            "neighbours":["text","","presets",""]
         }
     ]
 }
