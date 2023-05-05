@@ -180,8 +180,12 @@ class Lightstick:
 
     def preset_text(self):
         self.in_action = True
+        id = self.utils.getOptionValue('text')
+        id = id['value']-1
+        text = self.utils.getSettingValue('sources.texts')
+        text = text[id]['value']
         self.drawPage()
-        self.strip.printSigns('CAMI', self.display)
+        self.strip.printSigns(text, self.display)
         self.in_action = False
         self.drawPage()
 

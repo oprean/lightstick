@@ -86,6 +86,28 @@
                 "name":"right",
                 "value":0
             }
+        ],
+        "texts": [
+            {
+                "name":"iubesc",
+                "value":"Cami te iubesc!"
+            },
+            {
+                "name":"family",
+                "value":"Cami Sergiu Matei"
+            },
+            {
+                "name":"cami",
+                "value":"Camelia Oprean"
+            },
+            {
+                "name":"matei",
+                "value":"Matei-Stefan Oprean"
+            },
+            {
+                "name":"sergiu",
+                "value":"Sergiu-Matei Oprean"
+            }
         ]
     },
 
@@ -140,7 +162,15 @@
             "type":"option",
             "action": "update_setting",
             "content":"update TEXT COLOR",
-            "neighbours":["speed","","pixelate",""]
+            "neighbours":["speed","","text",""]
+        },
+        {
+            "name":"text",
+            "label":"TEXT",
+            "type":"option",
+            "action": "update_setting",
+            "content":"Select TEXT ",
+            "neighbours":["text_color","","pixelate",""]
         },
         {
             "name":"pixelate",
@@ -148,7 +178,7 @@
             "type":"option",
             "action": "update_setting",
             "content":"toggle pixelate",
-            "neighbours":["text_color","","image",""]
+            "neighbours":["text","","image",""]
         },
         {
             "name":"image",
@@ -180,15 +210,15 @@
             "type":"preset",
             "content":"display gradient",
             "action": "preset_gradient",
-            "neighbours":["fire","","text",""]
+            "neighbours":["fire","","display_text",""]
         },
         {
-            "name":"text",
+            "name":"display_text",
             "label":"TEXT",
             "type":"preset",
             "content":"display text",
             "action": "preset_text",
-            "neighbours":["fire","","display_image",""]
+            "neighbours":["gradient","","display_image",""]
         },
         {
             "name":"display_image",

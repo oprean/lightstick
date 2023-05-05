@@ -39,5 +39,9 @@
         "value": 4,
         "source": "sources.card"
     },
+    "text": {
+        "value": 1,
+        "source": "sources.texts"
+    },
     "start_page": "home"
 }
