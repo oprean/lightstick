@@ -1,9 +1,11 @@
+import gc
 import os
 import time
 import json
 
 try:
     from machine import Pin, I2C
+    import micropython
     _DEBUG_MODE = False
 except ImportError or ModuleNotFoundError:
     _DEBUG_MODE = True
@@ -19,7 +21,7 @@ _START_PAGE = 'home'
 if (not _DEBUG_MODE):
     _JSON_OPTIONS = 'options.json'
     _JSON_SETTINGS = 'settings.json'
-    _IMAGES_PATH = '\images\\'
+    _IMAGES_PATH = '/sd/images/'
 else:
     _JSON_OPTIONS = 'C:\Personal\pico\code\Lightstick\options.json'
     _JSON_SETTINGS = 'C:\Personal\pico\code\Lightstick\settings.json'
@@ -53,7 +55,7 @@ class Lightstick:
 
         # SC Card readed
         setings = self.setings['card']
-        self.card = Card(setings["spi_pin"], setings["cs_pin"], _IMAGES_PATH)
+        self.card = Card(setings["cs_pin"], setings["sck_pin"], setings["mosi_pin"], setings["miso_pin"], _IMAGES_PATH)
         self.utils = Utils(self.setings, self.options, self.card)
 
         # LED STRIP
@@ -192,19 +194,23 @@ class Lightstick:
     def preset_image(self, file = 'rgb.bmp'):
         self.in_action = True
         id = self.utils.getOptionValue('image')
-        id = id['value']-1
-        file = self.card.getFile(id)
+#        id = id['value']-1
+#        file = self.card.getFile(id)
         self.drawPage()
-        self.strip.image(_IMAGES_PATH + file['value'], self.display)
+        self.strip.image(_IMAGES_PATH + file)
         self.in_action = False
-        self.drawPage()
+        #self.drawPage()
 
 ######## start the program here ########
 
 stick = Lightstick(_JSON_SETTINGS, _JSON_OPTIONS, _START_PAGE)
-#stick.preset_image('pattern.bmp')
-#print(stick.card.listdir())
-stick.drawPage()
-while True:
-    stick.readKey()
+#https://docs.micropython.org/en/latest/reference/constrained.html
+stick.preset_image('matei_oprean.bmp')
+#gc.collect()
+#print(stick.card.listdir(_IMAGES_PATH))
+#micropython.alloc_emergency_exception_buf(100)
+#stick.drawPage()
+#while True:
+#    gc.collect()
+#    stick.readKey()
 

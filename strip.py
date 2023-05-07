@@ -4,11 +4,12 @@ import lib.signs as signs
 import random
 from utils import Utils
 from lib.bmp_reader import BMPReader
-import termcolor
+
 try:
     from machine import Pin, I2C
     _DEBUG_MODE = False
 except ImportError or ModuleNotFoundError:
+    import termcolor
     _DEBUG_MODE = True
 
 if (not _DEBUG_MODE):
@@ -100,25 +101,25 @@ class LedPainter:
          self.strip.show()
          time.sleep(self.speed/20)
 
-  def image(self,filename,oled):
+  def image(self,filename):
     img = BMPReader(filename)
-    pixel_grid = img.get_pixels()
-    print(pixel_grid)
-    for col in range(img.width-1,-1,-1):
-      for row in range(img.height):
-        if (not _DEBUG_MODE and row <= self.num_leds):self.strip.set_pixel(row,pixel_grid[row][col])
-        else:self.printPixel(pixel_grid[row][col], str(col)+','+str(row))
-      if (not _DEBUG_MODE):
-         self.strip.show()
-         time.sleep(self.speed)
-      else: 
-         time.sleep(self.speed)
-         print('-----' + filename + '--------')
-         #os.system('cls') 
-      if not _DEBUG_MODE and self.pixelate == 1:
-         self.strip.fill(black)
-         self.strip.show()
-         time.sleep(self.speed/20)
+    for x in range(img.width-1,-1,-1):
+        y=0
+        for column_pixel in img.read_column_pixels(x):          
+          if (not _DEBUG_MODE and y <= self.num_leds):self.strip.set_pixel(y,column_pixel)
+          else:self.printPixel(column_pixel, str(x)+','+str(y))
+          y+=1
+        if (not _DEBUG_MODE):
+          self.strip.show()
+          time.sleep(self.speed)
+        else: 
+          time.sleep(self.speed)
+          print('-----' + filename + '--------')
+          #os.system('cls') 
+        if not _DEBUG_MODE and self.pixelate == 1:
+          self.strip.fill(black)
+          self.strip.show()
+          time.sleep(self.speed/20)
 
   def printSigns(self,text, oled):
     for letter in text:

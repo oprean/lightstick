@@ -23,9 +23,11 @@
     },
 
     "card": {
-        "spi_pin": 0,
-        "cs_pin": 16,
-        "fc": 17
+        "spi": 0,
+        "cs_pin": 13,
+        "mosi_pin":12,
+        "miso_pin":15,
+        "sck_pin":14
     },
 
     "sources": {
