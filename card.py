@@ -15,12 +15,13 @@ class Card:
     def __init__(self, cs_pin, sck_pin, mosi_pin, miso_pin, path = ""):
         self.path = _MOUNT+path
         if (not _DEBUG_MODE):
-            #spi = machine.SPI(1, 10000, 0, 0, 8, machine.SPI.MSB, Pin(sck_pin), Pin(mosi_pin), Pin(miso_pin))
+            spi = machine.SPI(1, 10000, 0, 0, 8, machine.SPI.MSB, Pin(sck_pin), Pin(mosi_pin), Pin(miso_pin))           
             spi.init()  # Ensure right baudrate
-            sd = sdcard.SDCard(SPI(1), Pin(cs_pin))  # Compatible with PCB
+            sd = sdcard.SDCard(spi, Pin(cs_pin))  # Compatible with PCB
+            #sd = sdcard.SDCard(SPI(1), Pin(cs_pin))  # Compatible with PCB
             vfs = os.VfsFat(sd)
-#            os.mount(vfs, _MOUNT)
-        #self.images = self.listdir()
+            os.mount(vfs, _MOUNT)
+        self.images = self.listdir()
 
     def listdir(self,path=''):
         images = []

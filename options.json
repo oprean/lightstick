@@ -36,7 +36,7 @@
         "source": "sources.yesno"
     },
     "image": {
-        "value": 4,
+        "value": 3,
         "source": "sources.card"
     },
     "text": {

@@ -103,7 +103,7 @@ class LedPainter:
 
   def image(self,filename):
     img = BMPReader(filename)
-    for x in range(img.width-1,-1,-1):
+    for x in range(0,img.width):
         y=0
         for column_pixel in img.read_column_pixels(x):          
           if (not _DEBUG_MODE and y <= self.num_leds):self.strip.set_pixel(y,column_pixel)

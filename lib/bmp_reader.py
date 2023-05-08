@@ -2,48 +2,15 @@ class BMPReader(object):
     def __init__(self, filename):
         self._filename = filename
         self._read_img_data()
-
-    def get_pixels(self):
-        """
-        Returns a multi-dimensional array of the RGB values of each pixel in the
-        image, arranged by rows and columns from the top-left.  Access any pixel
-        by its location, eg:
-
-        pixels = BMPReader(filename).get_pixels()
-        top_left_px = pixels[0][0] # [255, 0, 0]
-        bottom_right_px = pixels[8][8] # [0, 255, 255]
-        """
-        pixel_grid = []
-        pixel_data = list(self._pixel_data) # So we're working on a copy
-
-        # need this for row padding
-        # https://en.wikipedia.org/wiki/BMP_file_format#Pixel_array_(bitmap_data)
-        lineLength = self.width * 3
-        if ((lineLength % 4) != 0):
-            lineLength = (int(lineLength / 4) + 1) * 4
-        padding = lineLength - self.width*3
-
-        for y in range(self.height):
-            row = []
-            for i in range(padding):
-                pixel_data.pop()
-            for x in range(self.width):
-                r = pixel_data.pop()
-                g = pixel_data.pop()
-                b = pixel_data.pop()
-                row.append((r, g, b))
-            pixel_grid.insert(0, row)
-        pixel_grid.reverse()
-        return pixel_grid
     
-    def read_column_pixels(self, idx):
-        idx-=1
+    def read_column_pixels(self, x):
+        x-=1
         column_pixels=[]
         with open(self._filename, 'rb') as f:
             # Iterate over the image column by column
             for y in range(self.height - 1, -1, -1):
                 # Calculate byte position of pixel in file
-                byte_pos = 54 + (y * (self.width * 3 + self.row_padding)) + (idx * 3)
+                byte_pos = 54 + (y * (self.width * 3 + self.row_padding)) + (x * 3)
 
                 # Read RGB values of pixel
                 f.seek(byte_pos)

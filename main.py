@@ -191,13 +191,15 @@ class Lightstick:
         self.in_action = False
         self.drawPage()
 
-    def preset_image(self, file = 'rgb.bmp'):
+    def preset_image(self, file = ''):
         self.in_action = True
-        id = self.utils.getOptionValue('image')
-#        id = id['value']-1
-#        file = self.card.getFile(id)
+        if (file == ''):
+            id = self.utils.getOptionValue('image')
+            id = id['value']-1
+            file = self.card.getFile(id)
+            print(file);
         self.drawPage()
-        self.strip.image(_IMAGES_PATH + file)
+        self.strip.image(_IMAGES_PATH + file['value'])
         self.in_action = False
         #self.drawPage()
 
@@ -205,12 +207,10 @@ class Lightstick:
 
 stick = Lightstick(_JSON_SETTINGS, _JSON_OPTIONS, _START_PAGE)
 #https://docs.micropython.org/en/latest/reference/constrained.html
-stick.preset_image('matei_oprean.bmp')
-#gc.collect()
+#stick.preset_image('matei_oprean.bmp')
 #print(stick.card.listdir(_IMAGES_PATH))
-#micropython.alloc_emergency_exception_buf(100)
-#stick.drawPage()
-#while True:
-#    gc.collect()
-#    stick.readKey()
+
+stick.drawPage()
+while True:
+    stick.readKey()
 
