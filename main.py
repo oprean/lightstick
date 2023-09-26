@@ -17,7 +17,7 @@ from utils import Utils
 from card import Card
 
 ###### constants ##########  
-_START_PAGE = 'home'
+_START_PAGE = 'action'
 if (not _DEBUG_MODE):
     _JSON_OPTIONS = 'options.json'
     _JSON_SETTINGS = 'settings.json'
@@ -69,7 +69,7 @@ class Lightstick:
         # NAV Keys
         setings = self.setings['navkeys']
         self.wait_key = setings['wait']
-        self.keyboard = NavKeyboard(setings["up_pin"], setings["right_pin"], setings["down_pin"], setings["left_pin"], setings["select_pin"])
+        self.keyboard = NavKeyboard(setings["up_pin"], setings["right_pin"], setings["down_pin"], setings["left_pin"], setings["select_pin"], setings["fire_pin"])
 
         self.strip.initialAnimation()
 
@@ -90,6 +90,8 @@ class Lightstick:
             self.selected = self.page['neighbours'][_DOWN]
         elif key == 'left':
             self.selected = self.page['neighbours'][_LEFT]
+        elif key == 'space':
+            self.fire()
         elif key == 'enter' and not self.in_action:
             if 'action' in self.page:
                 action = getattr(self, self.page['action'])
@@ -98,6 +100,13 @@ class Lightstick:
             if (page['name'] == self.selected):
                 self.page = page
         self.drawPage()
+
+    def fire(self):
+        id = self.options['action']['value']-1  
+        actions = self.utils.getSettingValue('sources.actions')
+        action_name = actions[id]['action']
+        action = getattr(self, action_name)
+        action()
 
     def drawPage(self):
         self.display.draw(self.page, self.in_action, self.options)
@@ -148,6 +157,7 @@ class Lightstick:
                 self.drawPage()
 
 ############# PRESETS ###############
+
     def preset_gradient(self):
         self.in_action = True
         self.drawPage()

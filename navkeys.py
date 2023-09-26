@@ -7,13 +7,14 @@ except ImportError or ModuleNotFoundError:
 
 
 class NavKeyboard:
-    def __init__(self, up_pin, right_pin, down_pin, left_pin, select_pin):
+    def __init__(self, up_pin, right_pin, down_pin, left_pin, select_pin, fire_pin):
         if (not _DEBUG_MODE):
             self.up_button = machine.Pin(up_pin, machine.Pin.IN, machine.Pin.PULL_UP)
             self.down_button = machine.Pin(down_pin, machine.Pin.IN, machine.Pin.PULL_UP)
             self.left_button = machine.Pin(left_pin, machine.Pin.IN, machine.Pin.PULL_UP)
             self.right_button = machine.Pin(right_pin, machine.Pin.IN, machine.Pin.PULL_UP)
             self.select_button = machine.Pin(select_pin, machine.Pin.IN, machine.Pin.PULL_UP)
+            self.fire_button = machine.Pin(fire_pin, machine.Pin.IN, machine.Pin.PULL_UP)
             
     def read_key(self):
         if (_DEBUG_MODE):
@@ -29,5 +30,7 @@ class NavKeyboard:
                 return 'left'
             elif (self.select_button.value() == 0):
                 return 'enter'
+            elif (self.fire_button.value() == 0):
+                return 'space'
             else:
                 return ''

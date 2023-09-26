@@ -36,12 +36,16 @@
         "source": "sources.yesno"
     },
     "image": {
-        "value": 3,
+        "value": 11,
         "source": "sources.card"
     },
     "text": {
         "value": 1,
         "source": "sources.texts"
     },
-    "start_page": "home"
+    "action": {
+        "value": 0,
+        "source": "sources.actions"
+    },
+    "start_page": "action"
 }

@@ -1,234 +1,237 @@
 {
-    "strip": {
-        "num_pixels":30,
-        "pin":28,
-        "mode":"GRB",
-        "state_machine":0,
-        "delay": 0.0001
+    "strip":{
+       "num_pixels":30,
+       "pin":28,
+       "mode":"GRB",
+       "state_machine":0,
+       "delay":0.0001
     },
-
-    "navkeys": {
-        "up_pin":1, 
-        "right_pin":20, 
-        "down_pin":19, 
-        "left_pin":4, 
-        "select_pin":18,
-        "wait":0.2
+    "navkeys":{
+       "up_pin":1,
+       "right_pin":20,
+       "down_pin":19,
+       "left_pin":4,
+       "select_pin":18,
+       "fire_pin":19,
+       "wait":0.2
     },
-
-    "oled": {
-        "id": 0,
-        "sda_pin": 16,
-        "scl_pin": 17
+    "oled":{
+       "id":0,
+       "sda_pin":16,
+       "scl_pin":17
     },
-
-    "card": {
-        "spi": 0,
-        "cs_pin": 13,
-        "mosi_pin":12,
-        "miso_pin":15,
-        "sck_pin":14
+    "card":{
+       "spi":0,
+       "cs_pin":13,
+       "mosi_pin":12,
+       "miso_pin":15,
+       "sck_pin":14
     },
-
-    "sources": {
-        "colors": [
-            {
-                "name":"black",
-                "value":"000000"
-            },
-            {
-                "name":"white",
-                "value":"FFFFFF"
-            },
-            {
-                "name":"red",
-                "value":"FF0000"
-            },
-            {
-                "name":"orange",
-                "value":"FF7F00"
-            },
-            {
-                "name":"yellow",
-                "value":"FFFF00"
-            },
-            {
-                "name":"green",
-                "value":"00FF00"
-            },
-            {
-                "name":"blue",
-                "value":"0000FF"
-            },
-            {
-                "name":"indigo",
-                "value":"4B0082"
-            },
-            {
-                "name":"violet",
-                "value":"9400D3"
-            }
-        ],
-        "yesno": [
-            {
-                "name":"yes",
-                "value":1
-            },
-            {
-                "name":"no",
-                "value":0
-            }
-        ],
-        "leftright": [
-            {
-                "name":"left",
-                "value":1
-            },
-            {
-                "name":"right",
-                "value":0
-            }
-        ],
-        "texts": [
-            {
-                "name":"iubesc",
-                "value":"Cami te iubesc!"
-            },
-            {
-                "name":"family",
-                "value":"Cami Sergiu Matei"
-            },
-            {
-                "name":"cami",
-                "value":"Camelia Oprean"
-            },
-            {
-                "name":"matei",
-                "value":"Matei-Stefan Oprean"
-            },
-            {
-                "name":"sergiu",
-                "value":"Sergiu-Matei Oprean"
-            }
-        ]
+    "sources":{
+       "colors":[
+          {
+             "name":"black",
+             "value":"000000"
+          },
+          {
+             "name":"white",
+             "value":"FFFFFF"
+          },
+          {
+             "name":"red",
+             "value":"FF0000"
+          },
+          {
+             "name":"orange",
+             "value":"FF7F00"
+          },
+          {
+             "name":"yellow",
+             "value":"FFFF00"
+          },
+          {
+             "name":"green",
+             "value":"00FF00"
+          },
+          {
+             "name":"blue",
+             "value":"0000FF"
+          },
+          {
+             "name":"indigo",
+             "value":"4B0082"
+          },
+          {
+             "name":"violet",
+             "value":"9400D3"
+          }
+       ],
+       "yesno":[
+          {
+             "name":"yes",
+             "value":1
+          },
+          {
+             "name":"no",
+             "value":0
+          }
+       ],
+       "leftright":[
+          {
+             "name":"left",
+             "value":1
+          },
+          {
+             "name":"right",
+             "value":0
+          }
+       ],
+       "texts":[
+          {
+             "name":"iubesc",
+             "value":"Cami te iubesc!"
+          },
+          {
+             "name":"family",
+             "value":"Cami Sergiu Matei"
+          },
+          {
+             "name":"cami",
+             "value":"Camelia Oprean"
+          },
+          {
+             "name":"matei",
+             "value":"Matei-Stefan Oprean"
+          },
+          {
+             "name":"sergiu",
+             "value":"Sergiu-Matei Oprean"
+          }
+       ],
+       "actions":[
+          {
+             "name":"rainbow",
+             "value":"RAINBOW",
+             "action":"preset_rainbow",
+             "content":"Rainbow colors!"
+          },
+          {
+             "name":"fire",
+             "value":"FIRE",
+             "action":"preset_fire",
+             "content":"display fire"
+          },
+          {
+             "name":"gradient",
+             "value":"GRADIENT",
+             "action":"preset_gradient",
+             "content":"display gradient"
+          },
+          {
+             "name":"display_text",
+             "value":"TEXT",
+             "action":"preset_text",
+             "content":"display text"
+          },
+          {
+             "name":"display_image",
+             "value":"DISPLAY IMAGE",
+             "action":"preset_image",
+             "content":"display image"
+          }
+       ]
     },
-
-    "menu": [
-        {
-            "name":"home",
-            "label":"HOME",
-            "type":"static",
-            "content":"Welcome ...",
-            "neighbours":["","presets","about","settings"]
-        },
-        {
-            "name":"presets",
-            "label":"PRESETS",
-            "type":"static",
-            "content":"Presets ...",
-            "neighbours":["","settings","rainbow","home"]
-        },
-        {
-            "name":"about",
-            "label":"ABOUT",
-            "type":"static",
-            "content":"Lightstick ...",
-            "neighbours":["home","","home",""]
-        },
-        {
-            "name":"settings",
-            "label":"SETTINGS",
-            "type":"static",
-            "content":"settings ...",
-            "neighbours":["","home","brightness","presets"]
-        },
-        {
-            "name":"brightness",
-            "label":"BRIGHTNESS",
-            "type":"option",
-            "action": "update_setting",
-            "content":"brightness settings ...",
-            "neighbours":["settings","","speed",""]
-        },
-        {
-            "name":"speed",
-            "label":"SPEED",
-            "type":"option",
-            "action": "update_setting",
-            "content":"update settings ...",
-            "neighbours":["brightness","","text_color",""]
-        },
-        {
-            "name":"text_color",
-            "label":"TEXT COLOR",
-            "type":"option",
-            "action": "update_setting",
-            "content":"update TEXT COLOR",
-            "neighbours":["speed","","text",""]
-        },
-        {
-            "name":"text",
-            "label":"TEXT",
-            "type":"option",
-            "action": "update_setting",
-            "content":"Select TEXT ",
-            "neighbours":["text_color","","pixelate",""]
-        },
-        {
-            "name":"pixelate",
-            "label":"PIXELATE",
-            "type":"option",
-            "action": "update_setting",
-            "content":"toggle pixelate",
-            "neighbours":["text","","image",""]
-        },
-        {
-            "name":"image",
-            "label":"IMAGE",
-            "type":"option",
-            "action": "update_setting",
-            "content":"Select image",
-            "neighbours":["pixelate","","settings",""]
-        },
-        {
-            "name":"rainbow",
-            "label":"RAINBOW",
-            "type":"preset",
-            "content":"Rainbow colors!",
-            "action": "preset_rainbow",
-            "neighbours":["presets","","fire",""]
-        },
-        {
-            "name":"fire",
-            "label":"FIRE",
-            "type":"preset",
-            "content":"display fire",
-            "action": "preset_fire",
-            "neighbours":["rainbow","","gradient",""]
-        },
-        {
-            "name":"gradient",
-            "label":"GRADIENT",
-            "type":"preset",
-            "content":"display gradient",
-            "action": "preset_gradient",
-            "neighbours":["fire","","display_text",""]
-        },
-        {
-            "name":"display_text",
-            "label":"TEXT",
-            "type":"preset",
-            "content":"display text",
-            "action": "preset_text",
-            "neighbours":["gradient","","display_image",""]
-        },
-        {
-            "name":"display_image",
-            "label":"DISPLAY IMAGE",
-            "type":"preset",
-            "content":"display image",
-            "action": "preset_image",
-            "neighbours":["text","","presets",""]
-        }
+    "menu":[
+       {
+          "name":"action",
+          "label":"ACTION",
+          "type":"option",
+          "action":"update_setting",
+          "content":"select actiop ...",
+          "neighbours":[
+             "image",
+             "",
+             "brightness",
+             ""
+          ]
+       },
+       {
+          "name":"brightness",
+          "label":"BRIGHTNESS",
+          "type":"option",
+          "action":"update_setting",
+          "content":"brightness settings ...",
+          "neighbours":[
+             "settings",
+             "",
+             "speed",
+             ""
+          ]
+       },
+       {
+          "name":"speed",
+          "label":"SPEED",
+          "type":"option",
+          "action":"update_setting",
+          "content":"update settings ...",
+          "neighbours":[
+             "brightness",
+             "",
+             "text_color",
+             ""
+          ]
+       },
+       {
+          "name":"text_color",
+          "label":"TEXT COLOR",
+          "type":"option",
+          "action":"update_setting",
+          "content":"update TEXT COLOR",
+          "neighbours":[
+             "speed",
+             "",
+             "text",
+             ""
+          ]
+       },
+       {
+          "name":"text",
+          "label":"TEXT",
+          "type":"option",
+          "action":"update_setting",
+          "content":"Select TEXT ",
+          "neighbours":[
+             "text_color",
+             "",
+             "pixelate",
+             ""
+          ]
+       },
+       {
+          "name":"pixelate",
+          "label":"PIXELATE",
+          "type":"option",
+          "action":"update_setting",
+          "content":"toggle pixelate",
+          "neighbours":[
+             "text",
+             "",
+             "image",
+             ""
+          ]
+       },
+       {
+          "name":"image",
+          "label":"IMAGE",
+          "type":"option",
+          "action":"update_setting",
+          "content":"Select image",
+          "neighbours":[
+             "pixelate",
+             "",
+             "action",
+             ""
+          ]
+       }
     ]
-}
+ }
